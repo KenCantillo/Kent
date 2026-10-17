@@ -64,8 +64,8 @@ function render(){
  shown.forEach((item,i)=>{
   const tile=document.createElement('article');tile.className='tile';tile.tabIndex=0;tile.setAttribute('aria-label',`Open ${item.type}`);
   const media=document.createElement('div');media.className='media';
-  if(item.type==='video'){const v=document.createElement('video');v.src=item.src;v.muted=true;v.preload='metadata';v.playsInline=true;media.append(v);v.addEventListener('loadeddata',()=>{try{v.currentTime=.2}catch(e){}})}
-  else {const img=document.createElement('img');img.src=item.src;img.alt='Memory from the Kent photo collection';img.loading='lazy';media.append(img)}
+  if(item.type==='video'){const v=document.createElement('video');v.src=item.src;v.onerror = () => tile.remove();v.muted=true;v.preload='metadata';v.playsInline=true;media.append(v);v.addEventListener('loadeddata',()=>{try{v.currentTime=.2}catch(e){}})}
+  else {const img=document.createElement('img');img.src=item.src;img.onerror = () => tile.remove();img.alt='Memory from the Kent photo collection';img.loading='lazy';media.append(img)}
   const meta=document.createElement('div');meta.className='tile-meta';meta.innerHTML=`<span>${item.type==='video'?'Moving image':'Photograph'}</span><span>${String(i+1).padStart(2,'0')} / ${String(shown.length).padStart(2,'0')}</span>`;
   tile.append(media,meta);tile.addEventListener('click',()=>openAt(i));tile.addEventListener('keydown',e=>{if(e.key==='Enter')openAt(i)});grid.append(tile);
  });
